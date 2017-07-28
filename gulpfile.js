@@ -8,8 +8,8 @@ var gulp = require('gulp'),
     sequence = require('run-sequence'),
     jsPath = 'public/js',
     jsDist = 'public/js/dist',
-    cssPath = 'public/css',
-    cssDist = 'public/css/dist',
+    cssPath = 'public/styles',
+    cssDist = 'public/styles/dist',
     libPath = 'public/lib',
     nodeModulesPath = 'node_modules';
 
@@ -54,9 +54,9 @@ gulp.task('compressScripts', function() {
     gulp.src([
         jsPath + '/**/*.js'
     ])
-        .pipe(concat('scripts.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(jsDist));
+    .pipe(concat('scripts.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(jsDist));
 });
 
 gulp.task('watch', function() {
@@ -67,6 +67,18 @@ gulp.task('watch', function() {
         jsPath + '/**/*.js', ['compressScripts']
     ]);
 
+});
+
+gulp.task('watch:scss', function() {
+    gulp.watch('client/**/*.scss', ['angular:scss']);
+});
+
+gulp.task('angular:scss', function() {
+    gulp.src('client/**/*.scss')
+      .pipe(plumber())
+      .pipe(sass({ errLogToConsole: true }))
+      .pipe(csso())
+      .pipe(gulp.dest('./client'));
 });
 
 gulp.task('default', ['sass', 'compressScripts', 'watch']);

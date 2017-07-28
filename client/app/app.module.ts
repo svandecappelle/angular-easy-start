@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 import {MdButtonModule, MdCheckboxModule} from '@angular/material';
 
-import { AppComponent } from './components/app.component';
+import { AppComponent } from './root/app.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule
