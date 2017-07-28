@@ -1,0 +1,10 @@
+default:
+  database:
+    host: localhost
+    database: customermanager
+    type: mongodb
+development:
+  database:
+    host: localhost
+    database: customermanager
+    type: mongodb

@@ -1,0 +1,6 @@
+trash
+client/app/**/*.css
+client/app/**/*.js
+client/app/**/*.map
+node_modules/
+public/lib/
