@@ -33,6 +33,7 @@ gulp.task('copy:vendor', function() {
   return gulp.src([
       nodeModulesPath + '/core-js/client/**/*',
       nodeModulesPath + '/zone.js/dist/zone.js',
+      nodeModulesPath + '/hammerjs/hammer.min.js',
       nodeModulesPath + '/systemjs/dist/system-polyfills.js',
       nodeModulesPath + '/systemjs/dist/system.src.js'
     ])
@@ -70,7 +71,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('watch:scss', function() {
-    gulp.watch('client/**/*.scss', ['angular:scss']);
+    gulp.watch(['client/**/*.scss', 'public/**/*.scss'], ['angular:scss', 'sass']);
 });
 
 gulp.task('angular:scss', function() {
@@ -81,4 +82,4 @@ gulp.task('angular:scss', function() {
       .pipe(gulp.dest('./client'));
 });
 
-gulp.task('default', ['sass', 'compressScripts', 'watch']);
+gulp.task('default', ['sass', 'angular:scss', 'compressScripts', 'watch']);

@@ -1,10 +1,16 @@
 default:
   database:
     host: localhost
-    database: customermanager
-    type: mongodb
+    database: postgres
+    username: LINKING
+    password: LINKING
+    type: postgresql
+    dialect: postgres
 development:
   database:
     host: localhost
-    database: customermanager
-    type: mongodb
+    database: postgres
+    username: LINKING
+    password: LINKING
+    type: postgresql
+    dialect: postgres

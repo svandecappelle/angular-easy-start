@@ -1,0 +1,18 @@
+<div class="table-container mat-elevation-z8">
+  <cdk-table #table [dataSource]="dataSource">
+    <ng-container cdkColumnDef="id">
+      <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> id </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row" class="table-cell"> {{row.id}} </cdk-cell>
+    </ng-container>
+
+    <ng-container cdkColumnDef="username">
+      <cdk-header-cell *cdkHeaderCellDef class="table-header-cell"> User name </cdk-header-cell>
+      <cdk-cell *cdkCellDef="let row" class="table-cell"> {{row.username}} </cdk-cell>
+    </ng-container>
+
+    <cdk-header-row *cdkHeaderRowDef="['id', 'username']" class="table-header-row"></cdk-header-row>
+    <cdk-row *cdkRowDef="let row; columns: ['id', 'username']" class="table-row"></cdk-row>
+  </cdk-table>
+  <md-paginator>
+  </md-paginator>
+</div>

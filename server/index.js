@@ -10,6 +10,8 @@ const express = require('express'),
   morgan = require('morgan'),
   favicon = require('serve-favicon'),
 
+  routes = require('./app/routes'),
+
   //router = require('./src/routes/router'),
   //database = require('./src/lib/database'),
   //seeder = require('./src/lib/dbSeeder'),
@@ -108,6 +110,8 @@ class Server {
   initRoutes () {
     //router.load(app, 'api');
     // redirect all others to the index (HTML5 history)
+    
+    routes.serve(app);
     app.all('/*', (req, res) => {
       res.sendFile(path.resolve(__dirname, '../client/index.html'));
     });

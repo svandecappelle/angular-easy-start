@@ -5,14 +5,21 @@
   // map tells the System loader where to look for things
   var map = {
     'app':        'app', // 'dist',
-    '@angular':   'lib/@angular',
-    'rxjs':       'lib/rxjs'
+    '@angular': 'lib/@angular',
+    '@angular/animations': 'lib/@angular/animations/bundles/animations.umd.js',
+    '@angular/animations/browser': 'lib/@angular/animations/bundles/animations-browser.umd.js',
+    '@angular/platform-browser/animations': 'lib/@angular/platform-browser/bundles/platform-browser-animations.umd.js',
+    'rxjs':       'lib/rxjs',
+    '@angular/cdk-platform': 'lib/@angular/cdk',
+    '@angular/cdk/a11y': 'lib/@angular/cdk',
+    '@angular/material': 'lib/@angular/material',
   };
 
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                        { main: 'main.js',  defaultExtension: 'js' },
-    'rxjs':                       { defaultExtension: 'js' }
+    'rxjs':                       { defaultExtension: 'js' },
+    'animations':                 { main: 'platform-browser-animations.js',defaultExtension: 'js' }
   };
 
   var ngPackageNames = [
@@ -26,8 +33,7 @@
     'router',
     'upgrade',
     'material',
-    'cdk',
-    'animations'
+    'cdk'
   ];
 
   // Individual files (~300 requests):
