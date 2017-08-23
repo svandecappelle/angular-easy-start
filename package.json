@@ -9,7 +9,8 @@
     "tsc:w": "tsc -w",
     "server": "node server.js",
     "watch": "gulp watch:scss",
-    "start": "concurrently \"npm run tsc:w\" \"npm run watch\" \"nodemon server/index.js\""
+    "start": "concurrently \"npm run tsc:w\" \"npm run watch\" \"nodemon server/index.js\"",
+    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "author": "Steeve Vandecappelle",
   "license": "SEE LICENCE IN LICENCE",
@@ -69,6 +70,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-sass": "^2.3.2",
     "gulp-uglify": "^2.0.0",
+    "gulp-zip": "^4.0.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",

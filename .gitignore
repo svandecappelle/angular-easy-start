@@ -5,3 +5,5 @@ client/app/**/*.map
 node_modules/
 public/lib/
 public/styles/dist
+build/
+dist/
