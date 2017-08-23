@@ -1,34 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgModule } from '@angular/core';
-import { CdkTableModule } from '@angular/cdk';
-import { HttpModule } from '@angular/http';
-
-import { MaterialModule } from './modules/material-module';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './root/app.component';
-import { HeaderComponent } from './components/header/header.component';
-import { TableComponent } from './components/table/table.component';
-import { LoginComponent } from './views/middleware/login/login.component';
-import { appRouting } from './app.routing';
-import { IndexComponent } from './views/index/index.component';
+
+import { SharedModule } from './modules/shared.module';
+import { appRouting } from './modules/app.routing';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    TableComponent,
-    appRouting.components,
-  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule,
-    HttpModule,
+    SharedModule,
     appRouting.routes
   ],
+  declarations: [
+    AppComponent
+  ],
   providers: [],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

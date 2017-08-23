@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { DataSource } from '@angular/cdk';
 
@@ -54,11 +54,16 @@ export class TableDataService extends DataSource<any> {
   styleUrls: ['./table.component.css'],
   providers: [ TableDataService ]
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
 
-  constructor(public dataSource: TableDataService) {}
+  constructor(public dataSource: TableDataService, private detector: ChangeDetectorRef) {}
 
   ngOnInit() {
     console.log("ok");
+  }
+
+  ngAfterViewInit() {
+    // TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
+    this.detector.detectChanges();
   }
 }
