@@ -5,7 +5,6 @@ $background: #fff;
 .table-container {
   display: flex;
   flex-direction: column;
-  max-height: 500px;
   min-width: 300px;
   background-color: $background;
 }
@@ -31,10 +30,17 @@ $background: #fff;
   flex: 1;
 }
 
-.table-header-cell {
+.table-header-cell, .mat-sort-header-button{
   font-size: 12px;
+  text-transform: uppercase;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgb(0, 0, 0);
+}
+
+.mat-sort-header-button{
+  text-transform: uppercase;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
 }
 
 .table-cell {

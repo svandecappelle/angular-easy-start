@@ -2,7 +2,8 @@
 
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
-    username: DataTypes.STRING
+    username: DataTypes.STRING,
+    password: DataTypes.STRING
   }, {
     tableName: 'users',
     timestamps: false, // don't add the timestamp attributes (updatedAt, createdAt)

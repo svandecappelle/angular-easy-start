@@ -1,50 +1,58 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, Injectable } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, Injectable, ViewChild } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { DataSource } from '@angular/cdk';
 
+import { PageEvent, MdPaginator } from '@angular/material';
+
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { User, IPagedResults } from '../../shared/beans';
+import { TableService } from './table.service';
+
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/catch';
+
 
 @Injectable()
 export class TableDataService extends DataSource<any> {
   baseUrl: string = '/api/users';
+  paginator: MdPaginator;
+  subject:BehaviorSubject<User[]>;
 
-  constructor(private http: Http) { super(); }
+  constructor(private service: TableService) {
+    super();
+  }
+
+  setPaginator(paginator: MdPaginator) {
+    this.paginator = paginator;
+  }
 
   connect() : Observable<User[]> {
-    console.log('call api');
-      return this.http.get(this.baseUrl + '/list')
-         .map((res: Response) => {
-             let customers = res.json();
-             // this.calculateCustomersOrderTotal(customers);
-             return customers;
-         })
-         .catch(this.handleError);
-    }
+    const displayedChanges = [
+      this.paginator.page
+      // TODO add sorter
+    ];
 
-    disconnect() {
+    this.subject = new BehaviorSubject<User[]>([]);
+    Observable.merge(...displayedChanges).subscribe((d) => {
+      this.fetch();
+    });
 
-    }
+    return Observable.merge(this.subject);
+  }
 
-    private handleError(error: any) {
-        console.error('server error:', error);
-        if (error instanceof Response) {
-          let errMessage = '';
-          try {
-            errMessage = error.json().error;
-          } catch(err) {
-            errMessage = error.statusText;
-          }
-          return Observable.throw(errMessage);
-          // Use the following instead if using lite-server
-          //return Observable.throw(err.text() || 'backend server error');
-        }
-        return Observable.throw(error || 'Node.js server error');
-    }
+  disconnect() {
+
+  }
+
+  fetch() {
+    this.service.fetch({ page: this.paginator.pageIndex, pageSize: this.paginator.pageSize }, this.baseUrl).subscribe((datas) => {
+      this.subject.next(datas);
+    });
+  }
 }
 
 @Component({
@@ -52,18 +60,24 @@ export class TableDataService extends DataSource<any> {
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
-  providers: [ TableDataService ]
+  providers: [ TableDataService, TableService ]
 })
 export class TableComponent implements OnInit, AfterViewInit {
 
-  constructor(public dataSource: TableDataService, private detector: ChangeDetectorRef) {}
+  length = 100;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25, 100];
+  pageEvent: PageEvent;
+
+  @ViewChild(MdPaginator) paginator: MdPaginator;
+
+  constructor(private detector: ChangeDetectorRef, private dataSource: TableDataService) { }
 
   ngOnInit() {
-    console.log("ok");
+    this.dataSource.setPaginator(this.paginator);
   }
 
   ngAfterViewInit() {
-    // TODO: Remove this as it is a workaround to make the table visible when the page got reloaded
-    this.detector.detectChanges();
+    this.dataSource.fetch();
   }
 }
