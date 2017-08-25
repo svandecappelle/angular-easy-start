@@ -110,10 +110,19 @@ class Server {
   initRoutes () {
     //router.load(app, 'api');
     // redirect all others to the index (HTML5 history)
-    
+
     routes.serve(app);
+    app.use((req, res, next) => {
+      if (req.session && req.session.user == null || !req.session && req.url !== '/login'){
+        // if user is not logged-in redirect back to login page //
+        res.redirect('/login');
+      } else {
+        next();
+      }
+    });
+
     app.all('/*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, '../client/index.html'));
+      res.sendFile(path.resolve(__dirname, './index.html'));
     });
   }
 

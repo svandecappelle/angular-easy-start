@@ -15,6 +15,10 @@ import { MaterialModule } from './material-module';
 
 import { appRouting } from './app.routing';
 
+import { TableColumns, TableColumn } from '../components/table/header.directive';
+import { TableService, TableDataService } from '../components/table/table.service';
+import { BasicTable } from '../components/table/basic';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -28,6 +32,7 @@ import { appRouting } from './app.routing';
     appRouting.routes
   ],
   declarations: [
+    TableColumns, TableColumn, BasicTable,
     TableComponent,
     HeaderComponent,
     appRouting.components,
@@ -41,7 +46,7 @@ import { appRouting } from './app.routing';
     MaterialModule,
     TableComponent,
     HeaderComponent,
-    appRouting.components
+    appRouting.components,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

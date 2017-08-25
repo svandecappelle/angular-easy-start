@@ -27,12 +27,6 @@ router.get('/fetch/:page/:size', function (req, res, next) {
   })
 });
 
-router.get('/create-group/:name', function (req, res, next) {
-  models.Group.create({ name: req.params.name }).then( (users) => {
-    res.json({message: `group ${req.params.name} created`});
-  });
-});
-
 router.get('/assign-group/:username/:groupname', function (req, res, next) {
   models.Group.findOne({ where: {id: req.params.groupname}}).then( (group) => {
     models.User.findOne({ where: {id: req.params.username}}).then( (user) => {

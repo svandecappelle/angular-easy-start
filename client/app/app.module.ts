@@ -8,6 +8,9 @@ import { AppComponent } from './root/app.component';
 import { SharedModule } from './modules/shared.module';
 import { appRouting } from './modules/app.routing';
 
+
+import { TableService, TableDataService } from './components/table/table.service';
+
 @NgModule({
   imports: [
     BrowserModule,

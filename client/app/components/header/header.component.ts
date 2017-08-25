@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import * as SETTINGS from '../../global'; //<==== this one
 
 @Component({
   moduleId: module.id,
@@ -8,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: [ './header.component.css' ]
 })
 export class HeaderComponent implements OnInit {
+
+  settings = SETTINGS;
 
   constructor() { }
 

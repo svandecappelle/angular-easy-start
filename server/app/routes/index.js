@@ -1,4 +1,5 @@
 var users = require('./users'),
+  groups = require('./groups'),
   authority = require('./authority');
 
 class Routes {
@@ -8,6 +9,8 @@ class Routes {
 
   serve (app) {
     app.use('/api/users', users);
+    app.use('/api/groups', groups);
+
     app.use(authority);
   }
 

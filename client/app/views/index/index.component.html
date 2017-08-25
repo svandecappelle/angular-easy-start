@@ -2,6 +2,44 @@
 </app-header>
 
 <div style="margin-top: 90px;">
-  <app-table>
+
+  <app-table [options]="{
+    schema: {
+      columnsFlatten: ['id', 'name'],
+      columns: [
+        {
+          id: 'id',
+          name: 'ID'
+        },
+        {
+          id: 'name',
+          name: 'Name'
+        }
+      ]
+    }
+  }" service="/api/groups" val="value">
+</app-table>
+
+  <app-table [options]="{
+    schema: {
+      columnsFlatten: ['id', 'username', 'password'],
+      columns: [
+        {
+          id: 'id',
+          name: 'ID'
+        },
+        {
+          id: 'username',
+          name: 'User'
+        },
+        {
+          id: 'password',
+          name: 'secret'
+        }
+      ]
+    }
+  }" service="/api/users" val="value">
   </app-table>
+
+
 </div>

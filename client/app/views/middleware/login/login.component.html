@@ -2,5 +2,28 @@
 </app-header>
 
 <div style="margin-top: 90px;">
-  login
+  <div class='centered' style='margin: auto; width: 50%; margin-top: 6%;'>
+    <md-card>
+      <form method='post' action='/login' style='text-align: center;'>
+        <md-grid-list cols="1" rowHeight="10:1">
+          <md-grid-tile>
+            <i class='material-icons' style='text-align: center;font-size:5em;margin-top:0.25em;margin-bottom:0.25em;'> account_circle</i>
+          </md-grid-tile>
+          <md-grid-tile>
+            <md-input-container>
+              <input name='username' mdInput placeholder="Username" value="">
+            </md-input-container>
+          </md-grid-tile>
+          <md-grid-tile>
+            <md-input-container>
+              <input type='password' name='password' mdInput placeholder="Password" value="">
+            </md-input-container>
+          </md-grid-tile>
+          <md-grid-tile>
+            <button md-button>login</button>
+          </md-grid-tile>
+        </md-grid-list>
+      </form>
+    </md-card>
+  </div>
 </div>
