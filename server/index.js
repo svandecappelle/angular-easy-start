@@ -9,6 +9,7 @@ const express = require('express'),
   csrf = require('csurf'),
   morgan = require('morgan'),
   favicon = require('serve-favicon'),
+  session = require('express-session'),
 
   routes = require('./app/routes'),
 
@@ -65,14 +66,27 @@ class Server {
     app.use(bodyParser.json());
     app.use(errorhandler());
     app.use(cookieParser());
-    app.use(csrf({ cookie: true }));
+    if (app.get('env') === 'production') {
+      app.set('trust proxy', 1) // trust first proxy
+      sess.cookie.secure = true // serve secure cookies
+    }
 
+    // TODO change secret value
+    app.use(session({
+      secret: 'keyboard cat',
+      cookie: {}
+    }))
+
+    /*
+    app.use(csrf({ cookie: true }));
+    /*
     app.use((req, res, next) => {
       var csrfToken = req.csrfToken();
       res.locals._csrf = csrfToken;
       res.cookie('XSRF-TOKEN', csrfToken);
       next();
     });
+    */
 
     process.on('uncaughtException', (err) => {
       if (err) console.log(err, err.stack);
@@ -113,7 +127,7 @@ class Server {
 
     routes.serve(app);
     app.use((req, res, next) => {
-      if (req.session && req.session.user == null || !req.session && req.url !== '/login'){
+      if (req.session && req.session.user == null && req.url !== '/login'){
         // if user is not logged-in redirect back to login page //
         res.redirect('/login');
       } else {
