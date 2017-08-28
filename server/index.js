@@ -1,8 +1,7 @@
 const express = require('express'),
   path = require('path'),
-  exphbs = require('express-handlebars'),
-  hbsHelpers = require('handlebars-helpers'),
-  hbsLayouts = require('handlebars-layouts'),
+  nconf = require('nconf'),
+  nconfYaml = require('nconf-yaml'),
   bodyParser = require('body-parser'),
   cookieParser = require('cookie-parser'),
   errorhandler = require('errorhandler'),
@@ -10,23 +9,22 @@ const express = require('express'),
   morgan = require('morgan'),
   favicon = require('serve-favicon'),
   session = require('express-session'),
+  yaml_config = require('node-yaml-config'),
+  config    = yaml_config.load(path.resolve(__dirname, '../config/config.yml')),
 
   routes = require('./app/routes'),
-
-  //router = require('./src/routes/router'),
-  //database = require('./src/lib/database'),
-  //seeder = require('./src/lib/dbSeeder'),
-  app = express(),
-  port = 3000;
+  app = express();
 
 class Server {
 
   constructor () {
     this.running = false;
+    nconf.file({
+      file: path.resolve(__dirname, '../config/pricing.yml'),
+      format: nconfYaml
+    });
     this.initViewEngine();
     this.initExpressMiddleWare();
-    this.initCustomMiddleware();
-    // this.initDbSeeder();
     this.initRoutes();
     this.start();
   }
@@ -36,24 +34,19 @@ class Server {
   }
 
   start () {
-    app.listen(port, (err) => {
+    app.listen(config.port, (err) => {
       this.running = !err;
       if (err) {
         console.error('Error loading server: ', err);
       } else {
-        console.log('[%s] Listening on http://localhost:%d', process.env.NODE_ENV, port);
+        console.log('[%s] Listening on http://localhost:%d', process.env.NODE_ENV, config.port);
       }
     });
   }
 
   initViewEngine () {
-    const hbs = exphbs.create({
-      extname: '.hbs',
-      defaultLayout: 'master'
-    });
-    app.engine('hbs', hbs.engine);
-    app.set('view engine', 'hbs');
-    hbsLayouts.register(hbs.handlebars, {});
+    app.set('view engine', 'pug');
+    app.set('views', path.resolve(__dirname, './app/views'));
   }
 
   initExpressMiddleWare () {
@@ -71,7 +64,7 @@ class Server {
       sess.cookie.secure = true // serve secure cookies
     }
 
-    // TODO change secret value
+    // TODO change secret value  and maybe use passport
     app.use(session({
       secret: 'keyboard cat',
       cookie: {}
@@ -93,51 +86,9 @@ class Server {
     });
   }
 
-  initCustomMiddleware () {/*
-    if (process.platform === 'win32') {
-      require('readline').createInterface({
-        input: process.stdin,
-        output: process.stdout
-      }).on('SIGINT', () => {
-        console.log('SIGINT: Closing MongoDB connection');
-        // database.close();
-      });
-    }
-
-    process.on('SIGINT', () => {
-      console.log('SIGINT: Closing MongoDB connection');
-      // database.close();
-    });*/
-  }
-
-  initDbSeeder () {
-    /*database.open(() => {
-      // Set NODE_ENV to 'development' and uncomment the following if to only run
-      // the seeder when in dev mode
-      // if (process.env.NODE_ENV === 'development') {
-      //  seeder.init()
-      // }
-      seeder.init();
-    });*/
-  }
-
   initRoutes () {
-    //router.load(app, 'api');
     // redirect all others to the index (HTML5 history)
-
     routes.serve(app);
-    app.use((req, res, next) => {
-      if (req.session && req.session.user == null && !routes.isPublic(req.url)){
-        // if user is not logged-in redirect back to login page //
-        res.redirect('/login');
-      } else {
-        next();
-      }
-    });
-
-    app.all('/*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, './index.html'));
-    });
   }
 
 }

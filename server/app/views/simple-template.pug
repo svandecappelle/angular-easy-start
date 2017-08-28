@@ -1,0 +1,61 @@
+doctype html
+html(lang="en")
+  head
+    link(rel="stylesheet", type="text/css", href="/public/assets/material-design-lite/material.min.css")
+    link(href="/public/assets/material-design-icons/iconfont/material-icons.css", rel="stylesheet")
+    script(src="/public/assets/material-design-lite/material.min.js")
+    style.
+      .mdl-switch__track{
+        background-color: rgba(255, 255, 255, 0.26);
+      }
+      .mdl-textfield__input{
+        border-bottom-color: rgba(255, 255, 255, 0.26);
+      }
+      .mdl-switch.is-checked .mdl-switch__track {
+        background: rgba(255, 255, 255, 0.5);
+      }
+      .mdl-switch.is-checked .mdl-switch__thumb {
+        background: #09c1ff;
+      }
+      .mdl-data-table td{
+        text-align: left;
+      }
+      main .active a{
+        color: #95f223;
+        font-weight: bold;
+      }
+
+  body
+    .mdl-layout.mdl-js-layout
+      header.mdl-layout__header
+        .mdl-layout__header-row
+          span.mdl-layout-title Collect online
+          .mdl-layout-spacer
+          if session
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--expandable.mdl-textfield--floating-label
+              label.mdl-button.mdl-js-button.mdl-button--icon(for="search")
+                i.material-icons search
+              .mdl-textfield__expandable-holder
+                input.mdl-textfield__input#search(type="text")
+            label.mdl-switch.mdl-js-switch.mdl-js-ripple-effect(for="auto-refresh", style="padding-right: 40px; width: 100px;")
+              input#auto-refresh.mdl-switch__input(type="checkbox")
+              span.mdl-switch__label(style="text-align: center")
+                i.material-icons autorenew
+          button#demo-menu-lower-right.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
+            i.material-icons more_vert
+          ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right(for="demo-menu-lower-right")
+            if session
+              li.mdl-menu__item
+                a(href="/api/proxies-update", style='width: 100%;display: block;height: 100%;', target="_blank") Update proxies
+              li.mdl-menu__item
+                a(href="/logout", style='width: 100%;display: block;height: 100%;') Logout
+            else
+              li.mdl-menu__item
+                a(href="/login", style='width: 100%;display: block;') Login
+      if session
+        .mdl-layout__drawer
+          span.mdl-layout-title
+          nav.mdl-navigation
+            a.mdl-navigation__link#root-collect-online(href=rootPath) Home
+      main.mdl-layout__content
+        block body

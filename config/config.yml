@@ -6,6 +6,7 @@ default:
     password:
     type: postgresql
     dialect: postgres
+  port: 3000
 development:
   database:
     host: localhost
@@ -14,3 +15,4 @@ development:
     password:
     type: postgresql
     dialect: postgres
+  port: 3000
