@@ -2,7 +2,10 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Pricing = sequelize.define("Pricing", {
-    property: DataTypes.STRING,
+    property: {
+      type: DataTypes.STRING,
+      primaryKey: true
+    },
     value: DataTypes.STRING
   }, {
     tableName: 'pricing',

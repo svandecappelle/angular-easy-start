@@ -6,6 +6,8 @@ default:
     password:
     type: postgresql
     dialect: postgres
+    dialectOptions:
+      multipleStatements: true
   port: 3000
 development:
   database:
@@ -15,4 +17,6 @@ development:
     password:
     type: postgresql
     dialect: postgres
+    dialectOptions:
+      multipleStatements: true
   port: 3000

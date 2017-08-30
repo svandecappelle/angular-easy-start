@@ -1,7 +1,143 @@
 extends simple-template
 block append body
-  div application is not installed
-  button.md-button Install version #{version}
+  style.
+    body {
+      background: url('/public/background.jpg')
+    }
+    
+    .card-wide {
+      display: none;
+    }
+    .card-wide.is-active {
+      display: block;
+    }
+    .mdl-spinner{
+      display: none;
+    }
+    .mdl-spinner.is-active{
+      display: block;
+    }
+    .card-wide.mdl-card {
+      background-color: rgba(255, 255, 255, 1);
+      width: 100%;
+      margin: auto;
+      border-radius: 5px;
+    }
+    .card-wide > .mdl-card__title {
+      height: 176px;
+      text-align: center;
+      color: #BEBEBE;
+      background: url('/images/javascript-promises.jpg') center / cover;
+      padding: 0px;
+      margin: 0px;
+    }
+    .card-wide > .mdl-card__title > div{
+      text-align: center;
+      margin: auto;
+      background-color: rgba(0,0,0,0.8);
+      width: 100%;
+      height: 100%;
+    }
+    .card-wide i {
+      font-size: 5em;
+      padding-top: 10px;
+    }
+    .card-wide > .mdl-card__menu {
+      color: #fff;
+    }
+    .card-wide .mdl-card__supporting-text{
+      width: 100%;
+      padding: 16px 0px;
+    }
+    
+    #install-dialog {
+      width: 50%;
+    }
+    
+    #install-dialog .properties > .mdl-grid{
+      border-bottom: 1px solid #BEBEBE;
+      transition: 100ms all linear;
+    }
+    
+    #install-dialog .properties > .mdl-grid:hover{
+      background-color: #EEEEEE; 
+    }
 
-  md-card.mat-card
-        
+  #install-card.card-wide.is-active.mdl-card.mdl-shadow--2dp(style='text-align: center;')
+    .mdl-card__title
+      div
+        i.material-icons(style='text-align: center;') build
+        div installation
+    .mdl-card__supporting-text
+      div Application is not installed
+    .mdl-card__actions.mdl-card--border(style='text-align: center;')
+      button.mdl-button.dialog-button Install version #{version}
+    .mdl-spinner.mdl-spinner--single-color.mdl-js-spinner(style='margin: auto; margin-bottom: 15px;')
+  #install-success.card-wide.mdl-card.mdl-shadow--2dp(style='text-align: center;')
+    .mdl-card__title
+      div
+        i.material-icons(style='text-align: center;') done
+        div Application ready to use
+    .mdl-card__supporting-text
+      div Application is now not installed
+    .mdl-card__actions.mdl-card--border(style='text-align: center;')
+      button.mdl-button.dialog-button Begin use #{version}
+    .mdl-spinner.mdl-spinner--single-color.mdl-js-spinner(style='margin: auto; margin-bottom: 15px;')
+  dialog#install-dialog.mdl-dialog
+    h3.mdl-dialog__title Installation confirmation
+    div.mdl-dialog__content
+      p
+        Are you sure you want to install version: #{version} on
+      .properties
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span host: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.host}
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span database: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.database}
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span username: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.username}
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span type: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.postgresql}
+    div.mdl-dialog__actions
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          button.yes.mdl-button(type="button") Yes
+        .mdl-cell.mdl-cell--6-col
+          button.no.mdl-button(type="button") No
+  script.
+    (function() {
+      'use strict';
+      var dialogButton = document.querySelector('.dialog-button');
+      var dialog = document.querySelector('#install-dialog');
+      if (! dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+      }
+      dialogButton.addEventListener('click', function() {
+        dialog.showModal();
+      });
+      dialog.querySelector('button.yes')
+      .addEventListener('click', function() {
+        dialog.close();
+        document.querySelector('.mdl-spinner').classList.toggle('is-active');
+        $.post('install').done(function(){
+          document.querySelector('.mdl-spinner').classList.toggle('is-active');
+          document.querySelector('#install-card').classList.toggle('is-active');
+          document.querySelector('#install-success').classList.toggle('is-active');
+        });
+      });
+      dialog.querySelector('button.no')
+      .addEventListener('click', function() {
+        dialog.close();
+      });
+    }());

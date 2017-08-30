@@ -1,5 +1,5 @@
 CREATE TABLE pricing (
-  property text not null,
+  property varchar not null,
   value text not null,
   created_at date,
   updated_at date,

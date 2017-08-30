@@ -5,8 +5,7 @@ CREATE TABLE groups (
 )
 WITH (
   OIDS=FALSE
-) ;
-
+);
 CREATE TABLE user_groups (
   group_id int not null REFERENCES groups(id),
   user_id int not null REFERENCES users(id),
@@ -17,4 +16,4 @@ CREATE TABLE user_groups (
 )
 WITH (
   OIDS=FALSE
-) ;
+);

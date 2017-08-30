@@ -50,10 +50,6 @@ class Server {
   }
 
   initExpressMiddleWare () {
-    //app.use(favicon(path.resolve(__dirname, 'public/images/favicon.ico')));
-    app.use(express.static(path.resolve(__dirname, '../public')));
-    app.use(express.static(path.resolve(__dirname, '../client')));
-
     app.use(morgan('dev'));
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
