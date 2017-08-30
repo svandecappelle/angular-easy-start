@@ -28,6 +28,7 @@ class Installer {
         }).catch ( (error) => {
           console.error("--------------> error on executing", sqlFileContent);
           console.error(error);
+          // TODO check on error to retry errors and have an incremental install.
           next();
         });
       }, () => {
