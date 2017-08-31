@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const dateFormat = require('dateformat');
 const models = require(path.resolve(__dirname, '../../../app/models'));
 const async = require('async');
 
+var version = require(path.resolve(__dirname, '../../../../package')).version;
 class Installer {
 
   getFiles() {
@@ -26,21 +28,61 @@ class Installer {
           console.log("** query success ** ");
           next();
         }).catch ( (error) => {
-          console.error("--------------> error on executing", sqlFileContent);
+          console.error("Error on executing ", sqlFileContent);
           console.error(error);
-          // TODO check on error to retry errors and have an incremental install.
-          next();
+          // TODO check on error to retry errors and have an incremental install
         });
       }, () => {
-        var version = require(path.resolve(__dirname, '../../../../package')).version;
+
         console.log(`schema successfully installed ${version}`);
 
+        this.inserts().then(() => {
+          resolve(true);
+        }).catch(() => {
+          reject();
+        });
+
+      });
+    });
+  }
+
+  inserts () {
+    return new Promise((resolve, reject) => {
+      async.series({
+        startInstall: function (next){
+          models.Pricing.create({ property: 'installed_at', value: dateFormat()}).then(() => {
+            next(null, 'ok');
+          });
+        },
+        administators: function (next) {
+          models.User.create({ username: 'admin', password: 'admin'}).then(() => {
+            next(null, 'ok');
+          });
+        },
+        groups: function (next) {
+          models.Group.create({ name: 'administators' }).then(() => {
+            next(null, 'ok');
+          });
+        },
+        assignAdministrators: function (next){
+          models.Group.findOne({ where: {name: 'administators'}}).then( (group) => {
+            models.User.findOne({ where: {username: 'admin'}}).then( (user) => {
+              user.addGroup(group);
+              next(null, 'ok');
+            });
+          });
+        }
+      }, () => {
         models.Pricing.create({ property: 'version', value: version}).then( () => {
           console.log('database successfully installed');
           resolve(true);
         });
-      });
-    });
+      })
+    })
+
+
+
+
   }
 }
 

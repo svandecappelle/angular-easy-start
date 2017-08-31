@@ -2,8 +2,31 @@
   <header class='mat-elevation-z6'>
     <md-toolbar color="primary">
       <span>{{settings.appTitle}}</span>
+
       <span class="spacer" style="flex: 1 1 auto;"></span>
-      <a md-icon-button [routerLink]="['/login']"><md-icon>perm_identity</md-icon></a>
+      <ng-container *ngIf="currentUser !== null">
+        <button md-icon-button [mdMenuTriggerFor]="menu" >
+          <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #menu="mdMenu" >
+          <button md-menu-item>
+            <md-icon>account_circle</md-icon>
+            <span>{{currentUser.username}}</span>
+          </button>
+          <button md-menu-item disabled>
+            <md-icon>widgets</md-icon>
+            <span>Preferences</span>
+          </button>
+          <button md-menu-item>
+            <md-icon>notifications_off</md-icon>
+            <span>Disable alerts</span>
+          </button>
+          <button md-menu-item (click)="logout()">
+            <md-icon>power_settings_new</md-icon>
+              <a md-icon-button>Logout</a>
+          </button>
+        </md-menu>
+      </ng-container>
     </md-toolbar>
   </header>
 </div>

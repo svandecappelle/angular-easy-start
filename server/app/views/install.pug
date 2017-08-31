@@ -81,7 +81,8 @@ block append body
     .mdl-card__supporting-text
       div Application is now not installed
     .mdl-card__actions.mdl-card--border(style='text-align: center;')
-      button.mdl-button.dialog-button Begin use #{version}
+      button.mdl-button.dialog-button 
+        a(href='/') Begin use #{version}
     .mdl-spinner.mdl-spinner--single-color.mdl-js-spinner(style='margin: auto; margin-bottom: 15px;')
   dialog#install-dialog.mdl-dialog
     h3.mdl-dialog__title Installation confirmation

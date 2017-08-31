@@ -6,14 +6,18 @@ const express = require('express'),
   cookieParser = require('cookie-parser'),
   errorhandler = require('errorhandler'),
   csrf = require('csurf'),
-  morgan = require('morgan'),
+  // morgan = require('morgan'),
+  winston = require('winston-color'),
   favicon = require('serve-favicon'),
   session = require('express-session'),
   yaml_config = require('node-yaml-config'),
-  config    = yaml_config.load(path.resolve(__dirname, '../config/config.yml')),
+  dateFormat = require('dateformat'),
+  colors = require('colors'),
 
+  config    = yaml_config.load(path.resolve(__dirname, '../config/config.yml')),
   routes = require('./app/routes'),
   app = express();
+var environment = process.env.NODE_ENV || 'development';
 
 class Server {
 
@@ -23,6 +27,31 @@ class Server {
       file: path.resolve(__dirname, '../config/pricing.yml'),
       format: nconfYaml
     });
+
+    var logger = new Winston.Logger({
+        transports: [
+            new Winston.transports.Console({
+                level: nconf.get('log-level'),
+                handleExceptions: true,
+                json: false,
+                timestamp: function() {
+                  return dateFormat();
+                },
+                formatter: function(options) {
+                  // Return string will be passed to logger.
+                  return `${options.timestamp().green} [${options.level.toUpperCase().yellow}][${environment.red}] - ${(options.message ? options.message : '')} ${(options.meta && Object.keys(options.meta).length ? '\n'+ JSON.stringify(options.meta, null, ' ') : '' )}`;
+                }
+            })
+        ]
+    });
+
+    console.error = logger.error;
+    console.warn = logger.warn;
+    console.log = logger.info;
+    console.trace = logger.verbose;
+    console.debug = logger.debug;
+    console.silly = logger.silly;
+
     this.initViewEngine();
     this.initExpressMiddleWare();
     this.initRoutes();
@@ -35,11 +64,12 @@ class Server {
 
   start () {
     app.listen(config.port, (err) => {
+
       this.running = !err;
       if (err) {
         console.error('Error loading server: ', err);
       } else {
-        console.log('[%s] Listening on http://localhost:%d', process.env.NODE_ENV, config.port);
+        console.log('Listening on http://localhost:%d', config.port);
       }
     });
   }
@@ -50,7 +80,12 @@ class Server {
   }
 
   initExpressMiddleWare () {
-    app.use(morgan('dev'));
+    // app.use(morgan('dev'));
+    winston.level = nconf.get('log-level');
+    app.use((req, res, next) => {
+      console.trace(`${req.method} -> ${req.url}`);
+      next();
+    });
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
     app.use(errorhandler());

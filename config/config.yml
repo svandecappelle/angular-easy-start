@@ -5,6 +5,8 @@ default:
     username: svandecappelle
     password:
     type: postgresql
+    logging: false
+    schema: svandecappelle
     dialect: postgres
     dialectOptions:
       multipleStatements: true
@@ -16,6 +18,7 @@ development:
     username: svandecappelle
     password:
     type: postgresql
+    logging: false
     dialect: postgres
     dialectOptions:
       multipleStatements: true

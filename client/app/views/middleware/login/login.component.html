@@ -4,23 +4,23 @@
 <div style="margin-top: 90px;">
   <div class='centered' style='margin: auto; width: 50%; margin-top: 6%;'>
     <md-card>
-      <form method='post' action='/login' style='text-align: center;'>
+      <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
         <md-grid-list cols="1" rowHeight="10:1">
           <md-grid-tile>
             <i class='material-icons' style='text-align: center;font-size:5em;margin-top:0.25em;margin-bottom:0.25em;'> account_circle</i>
           </md-grid-tile>
           <md-grid-tile>
             <md-input-container>
-              <input name='username' mdInput placeholder="Username" value="">
+              <input name='username' mdInput placeholder="Username" value="" [(ngModel)]="model.username" #password="ngModel" required>
             </md-input-container>
           </md-grid-tile>
           <md-grid-tile>
             <md-input-container>
-              <input type='password' name='password' mdInput placeholder="Password" value="">
+              <input type='password' name='password' mdInput placeholder="Password" value="" [(ngModel)]="model.password" #password="ngModel" required>
             </md-input-container>
           </md-grid-tile>
           <md-grid-tile>
-            <button md-button onclick="submit()" type="submit">login</button>
+            <button md-button>login</button>
           </md-grid-tile>
         </md-grid-list>
       </form>

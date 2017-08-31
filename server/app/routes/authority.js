@@ -9,13 +9,18 @@ router.post('/signup', function (req, res, next) {
     Pass: req.body.pass,
     Num: req.body.num
   }
-// var UserReg = mongoose.model('UserReg', RegSchema)
-/*UserReg.create(user, function(err, newUser) {
-   if(err) return next(err)
-   req.session.user = email
-   return res.send('Logged In!')
-});*/
+  // var UserReg = mongoose.model('UserReg', RegSchema)
+  /*UserReg.create(user, function(err, newUser) {
+     if(err) return next(err)
+     req.session.user = email
+     return res.send('Logged In!')
+  });*/
 })
+
+router.get('/login', function (req, res, next) {
+  req.session.user = null;
+  next();
+});
 
 router.post('/login', function (req, res, next) {
   var username = req.body.username
@@ -26,7 +31,7 @@ router.post('/login', function (req, res, next) {
     if (!user) return res.send('Not logged in!')
 
     req.session.user = user.username
-    return res.redirect('/')
+    return res.json({token: 'a', username: username});
   })
 })
 

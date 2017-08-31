@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
     password: DataTypes.STRING
   }, {
     tableName: 'users',
-    timestamps: false, // don't add the timestamp attributes (updatedAt, createdAt)
+    timestamps: true, // don't add the timestamp attributes (updatedAt, createdAt)
     underscored: true // transform the columns camelCase into underscored table_name.
   });
 

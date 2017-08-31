@@ -8,6 +8,8 @@ import { AppComponent } from './root/app.component';
 import { SharedModule } from './modules/shared.module';
 import { appRouting } from './modules/app.routing';
 
+import { AuthGuard } from './guards/index';
+import { AlertService, AuthenticationService, UserService } from './services/index';
 
 import { TableService, TableDataService } from './components/table/table.service';
 
@@ -21,7 +23,12 @@ import { TableService, TableDataService } from './components/table/table.service
   declarations: [
     AppComponent
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AlertService,
+    AuthenticationService,
+    UserService
+  ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   bootstrap: [AppComponent]
 })
