@@ -1,9 +1,12 @@
 .app-header-bar {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
-  
+  height: 64px;
+
+  display: block;
+
   z-index: 10;
   color: hsla(0,0%,100%,.87);
 

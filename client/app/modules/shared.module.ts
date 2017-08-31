@@ -19,6 +19,8 @@ import { TableColumns, TableColumn } from '../components/table/header.directive'
 import { TableService, TableDataService } from '../components/table/table.service';
 import { BasicTable } from '../components/table/basic';
 
+import { AlertComponent } from '../directives/index';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { BasicTable } from '../components/table/basic';
   declarations: [
     TableColumns, TableColumn, BasicTable,
     TableComponent,
+    AlertComponent,
     HeaderComponent,
     appRouting.components,
   ],

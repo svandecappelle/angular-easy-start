@@ -28,7 +28,7 @@ router.post('/login', function (req, res, next) {
 
   models.User.findOne({where: {username: username, password: pass}}).then((user, err) => {
     if (err) return next(err)
-    if (!user) return res.send('Not logged in!')
+    if (!user) return res.status(401).send('Not logged in!')
 
     req.session.user = user.username
     return res.json({token: 'a', username: username});
