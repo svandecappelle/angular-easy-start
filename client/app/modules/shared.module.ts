@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableComponent } from '../components/table/table.component';
 import { HeaderComponent } from '../components/header/header.component';
 
-import { CdkTableModule } from '@angular/cdk';
+import { CdkTableModule } from '@angular/cdk/table';
 import { HttpModule } from '@angular/http';
 
 import { MaterialModule } from './material-module';
@@ -20,6 +20,9 @@ import { TableService, TableDataService } from '../components/table/table.servic
 import { BasicTable } from '../components/table/basic';
 
 import { AlertComponent } from '../directives/index';
+
+import { Paginator } from '../shared/i18n/Paginator';
+import { MdPaginatorIntl } from '@angular/material';
 
 @NgModule({
   imports: [

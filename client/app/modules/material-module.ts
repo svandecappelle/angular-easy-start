@@ -11,6 +11,7 @@ import {
   MdDatepickerModule,
   MdDialogModule,
   MdExpansionModule,
+  MdFormFieldModule,
   MdGridListModule,
   MdIconModule,
   MdInputModule,
@@ -31,10 +32,12 @@ import {
   MdTabsModule,
   MdToolbarModule,
   MdTooltipModule,
-  StyleModule
+  StyleModule,
+  MdPaginatorIntl
 } from '@angular/material';
 
-import {CdkTableModule} from '@angular/cdk';
+import { CdkTableModule } from '@angular/cdk/table';
+import { Paginator } from '../shared/i18n/Paginator';
 
 /**
  * NgModule that includes all Material modules that are required to serve the demo-app.
@@ -51,6 +54,7 @@ import {CdkTableModule} from '@angular/cdk';
     MdDatepickerModule,
     MdDialogModule,
     MdExpansionModule,
+    MdFormFieldModule,
     MdGridListModule,
     MdIconModule,
     MdInputModule,
@@ -74,6 +78,9 @@ import {CdkTableModule} from '@angular/cdk';
     MdNativeDateModule,
     CdkTableModule,
     StyleModule
+  ],
+  providers:[
+    { provide: MdPaginatorIntl, useClass: Paginator }
   ]
 })
 export class MaterialModule {}

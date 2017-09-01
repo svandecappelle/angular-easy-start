@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { User, IPagedResults } from '../../shared/beans';
-import { DataSource } from '@angular/cdk';
+import { DataSource } from '@angular/cdk/collections';
 
 @Injectable()
 export class TableService {

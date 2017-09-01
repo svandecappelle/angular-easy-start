@@ -31,7 +31,22 @@ System.config({
     '@angular/animations/browser': '/lib/@angular/animations/bundles/animations-browser.umd.js',
     '@angular/platform-browser/animations': '/lib/@angular/platform-browser/bundles/platform-browser-animations.umd.js',
     '@angular/material': '/lib/@angular/material/bundles/material.umd.js',
-    '@angular/cdk': '/lib/@angular/cdk/bundles/cdk.umd.js',
+
+    '@angular/cdk': '/lib/bundles/cdk.umd.js',
+    '@angular/cdk/a11y': '/lib/@angular/material/bundles/cdk-a11y.umd.js',
+    '@angular/cdk/bidi': '/lib/@angular/material/bundles/cdk-bidi.umd.js',
+    '@angular/cdk/coercion': '/lib/@angular/material/bundles/cdk-coercion.umd.js',
+    '@angular/cdk/collections': '/lib/@angular/material/bundles/cdk-collections.umd.js',
+    '@angular/cdk/keycodes': '/lib/@angular/material/bundles/cdk-keycodes.umd.js',
+    '@angular/cdk/observers': '/lib/@angular/material/bundles/cdk-observers.umd.js',
+    '@angular/cdk/overlay': '/lib/@angular/material/bundles/cdk-overlay.umd.js',
+    '@angular/cdk/platform': '/lib/@angular/material/bundles/cdk-platform.umd.js',
+    '@angular/cdk/portal': '/lib/@angular/material/bundles/cdk-portal.umd.js',
+    '@angular/cdk/rxjs': '/lib/@angular/material/bundles/cdk-rxjs.umd.js',
+    '@angular/cdk/scrolling': '/lib/@angular/material/bundles/cdk-scrolling.umd.js',
+    '@angular/cdk/stepper': '/lib/@angular/material/bundles/cdk-stepper.umd.js',
+    '@angular/cdk/table': '/lib/@angular/material/bundles/cdk-table.umd.js',
+    '@angular/cdk/testing': '/lib/@angular/material/bundles/cdk-testing.umd.js',
 
     // Rxjs mapping
     'rxjs': '/lib/rxjs',

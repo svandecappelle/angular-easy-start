@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { MdFormField } from '@angular/material';
+
 
 import { AlertService, AuthenticationService } from '../../../services/index';
 
@@ -11,7 +15,12 @@ import { AlertService, AuthenticationService } from '../../../services/index';
 })
 export class LoginComponent implements OnInit {
   model: any = {};
-  loading = false;
+  loading: boolean = false;
+  error: any = {};
+
+  @ViewChild('passwdControl') passwdControl: MdFormField;
+  @ViewChild('usernameControl') usernameControl: MdFormField;
+
   returnUrl: string;
 
   constructor(
@@ -36,7 +45,18 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.alertService.error(error);
+          // TODO retrieve from service error.
+          // this.alertService.error(JSON.parse(error._body).message);
+          this.error = {
+            username: false,
+            password: true
+          }
+          if (this.error.username) {
+            this.usernameControl._control.ngControl.reset();
+          }
+          if (this.error.password) {
+            this.passwdControl._control.ngControl.reset();
+          }
           this.loading = false;
         });
     }

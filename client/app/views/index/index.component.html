@@ -3,8 +3,7 @@
 
 <alert></alert>
 
-<div style="margin-top: 90px;">
-
+<div>
   <app-table [options]="{
     schema: {
       columnsFlatten: ['id', 'name'],
@@ -20,8 +19,9 @@
       ]
     }
   }" service="/api/groups" val="value">
-</app-table>
-
+  </app-table>
+</div>
+<div style='margin-top: 20px;'>
   <app-table [options]="{
     schema: {
       columnsFlatten: ['id', 'username', 'password'],

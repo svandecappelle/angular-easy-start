@@ -6,24 +6,20 @@
   <div class='centered' style='margin: auto; width: 50%; margin-top: 6%;'>
     <md-card>
       <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
-        <md-grid-list cols="1" rowHeight="10:1">
-          <md-grid-tile>
-            <i class='material-icons' style='text-align: center;font-size:5em;margin-top:0.25em;margin-bottom:0.25em;'> account_circle</i>
-          </md-grid-tile>
-          <md-grid-tile>
-            <md-input-container>
-              <input name='username' mdInput placeholder="Username" value="" [(ngModel)]="model.username" #password="ngModel" required>
-            </md-input-container>
-          </md-grid-tile>
-          <md-grid-tile>
-            <md-input-container>
-              <input type='password' name='password' mdInput placeholder="Password" value="" [(ngModel)]="model.password" #password="ngModel" required>
-            </md-input-container>
-          </md-grid-tile>
-          <md-grid-tile>
-            <button md-button>login</button>
-          </md-grid-tile>
-        </md-grid-list>
+        <i class='material-icons' style='text-align: center;font-size:5em;margin-top:0.25em;margin-bottom:0.25em;'>account_circle</i>
+        <md-form-field #usernameControl>
+          <input name='username' mdInput placeholder="Username" value="" [(ngModel)]="model.username" #username="ngModel" required>
+          <md-error *ngIf='error.username'>
+            Invalid username
+          </md-error>
+        </md-form-field>
+        <md-form-field #passwdControl>
+          <input type='password' name='password' mdInput placeholder="Password" value="" [(ngModel)]="model.password" #password="ngModel" required>
+          <md-error *ngIf='error.password'>
+            Invalid password
+          </md-error>
+        </md-form-field>
+        <button md-button>login</button>
       </form>
     </md-card>
   </div>
