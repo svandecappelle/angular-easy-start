@@ -15,7 +15,6 @@ const express = require('express'),
   colors = require('colors'),
 
   config    = yaml_config.load(path.resolve(__dirname, '../config/config.yml')),
-  routes = require('./app/routes'),
   app = express();
 var environment = process.env.NODE_ENV || 'development';
 
@@ -118,6 +117,7 @@ class Server {
   }
 
   initRoutes () {
+    var routes = require('./app/routes');
     // redirect all others to the index (HTML5 history)
     routes.serve(app);
   }
