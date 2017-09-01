@@ -4,9 +4,8 @@ html(lang="en")
     link(rel="stylesheet", type="text/css", href="/assets/material-design-lite/material.min.css")
     link(href="/assets/material-design-icons/iconfont/material-icons.css", rel="stylesheet")
     script(src="/assets/jquery/dist/jquery.min.js")
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.2/dialog-polyfill.min.js')
-    script(src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js')
-    //script(src="/assets/material-design-lite/material.min.js")
+    script(src='/dialog.polyfill.min.js')
+    script(src="/assets/material-design-lite/material.min.js")
     
     style.
       .mdl-switch__track{
@@ -28,12 +27,73 @@ html(lang="en")
         color: #95f223;
         font-weight: bold;
       }
+      body {
+        background: url('/public/background.jpg')
+      }
+      
+      .card-wide {
+        display: none;
+      }
+      .card-wide.is-active {
+        display: block;
+      }
+      .mdl-spinner{
+        display: none;
+      }
+      .mdl-spinner.is-active{
+        display: block;
+      }
+      .card-wide.mdl-card {
+        background-color: rgba(255, 255, 255, 1);
+        width: 100%;
+        margin: auto;
+        border-radius: 5px;
+      }
+      .card-wide > .mdl-card__title {
+        height: 176px;
+        text-align: center;
+        color: #BEBEBE;
+        background: url('/images/javascript-promises.jpg') center / cover;
+        padding: 0px;
+        margin: 0px;
+      }
+      .card-wide > .mdl-card__title > div{
+        text-align: center;
+        margin: auto;
+        background-color: rgba(0,0,0,0.8);
+        width: 100%;
+        height: 100%;
+      }
+      .card-wide i {
+        font-size: 5em;
+        padding-top: 10px;
+      }
+      .card-wide > .mdl-card__menu {
+        color: #fff;
+      }
+      .card-wide .mdl-card__supporting-text{
+        width: 100%;
+        padding: 16px 0px;
+      }
+      
+      .mdl-dialog {
+        width: 50%;
+      }
+      
+      .mdl-dialog .properties > .mdl-grid{
+        border-bottom: 1px solid #BEBEBE;
+        transition: 100ms all linear;
+      }
+      
+      .mdl-dialog .properties > .mdl-grid:hover{
+        background-color: #EEEEEE; 
+      }
 
   body
     .mdl-layout.mdl-js-layout
       header.mdl-layout__header
         .mdl-layout__header-row
-          span.mdl-layout-title Installer
+          span.mdl-layout-title #{title} version: #{version}
           .mdl-layout-spacer
           button#demo-menu-lower-right.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon
             i.material-icons more_vert
@@ -54,3 +114,4 @@ html(lang="en")
       main.mdl-layout__content
         .centered(style='margin: auto; width: 50%; margin-top: 6%;')
           block body
+          

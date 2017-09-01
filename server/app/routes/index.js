@@ -1,12 +1,14 @@
-const path = require('path'),
-  express = require('express'),
-  nconf = require('nconf'),
-  models = require('../models'),
-  users = require('./users'),
-  groups = require('./groups'),
-  install = require('./install'),
-  upgrade = require('./upgrade'),
-  authority = require('./authority');
+const path = require('path');
+const express = require('express');
+const nconf = require('nconf');
+const semver = require('semver');
+const models = require('../models');
+const users = require('./users');
+const groups = require('./groups');
+const install = require('./install');
+const upgrade = require('./upgrade');
+const authority = require('./authority');
+const version = require(path.resolve(__dirname, '../utils/version'));
 
 class Routes {
 
@@ -16,8 +18,8 @@ class Routes {
 
   serve (app) {
     app.all('/install', (req, res, next) => {
-      this.checkInstall().then( (version) => {
-        if (version){
+      version.check().then( (version) => {
+        if (version.installed){
           console.log('redirect');
           res.redirect('/');
         } else {
@@ -26,8 +28,11 @@ class Routes {
       });
     });
 
-    this.checkInstall().then( (version) => {
-      console.log(`installed version is ${version}`);
+    console.log('checking install');
+    version.check().then( (version) => {
+      console.log(`installed version is ${version.installed}`);
+    }).catch((err) => {
+      console.log('Error on checking installation', err);
     });
 
     app.use('/install', install);
@@ -53,12 +58,16 @@ class Routes {
     });
 
     app.all('/*', (req, res, next) => {
-      this.checkInstall().then( (version) => {
+      version.check().then( (version) => {
 
-        if (!version && req.url !== '/install') {
+        if (!version.installed && req.url !== '/install') {
           return res.redirect('/install');
-        } else if (version !== require(path.resolve(__dirname, '../../../package')).version) {
+        } else if (version.needUpgrade) {
+          // version bdd is lower than server build launched
           return res.redirect('/upgrade');
+        } else if (version.versionIsLower){
+          // version server build launched is lower than bdd
+          return res.redirect('/upgrade/lower-upgrade');
         } else {
           res.render('index');
         }
@@ -71,21 +80,6 @@ class Routes {
     return this.routes.indexOf(url) !== -1;
   }
 
-  checkInstall () {
-    return new Promise((resolve, reject)=>{
-      models[nconf.get('product-name')].findAll().then(properties => {
-        var pricing = {};
-        for (var variable of properties) {
-          pricing[variable.get('property')] = variable.get('value');
-        }
-        resolve(pricing.version);
-      }).catch((error) => {
-        // console.error(error);
-        console.log('not installed application');
-        resolve(null);
-      });
-    });
-  }
 }
 
 module.exports = new Routes();

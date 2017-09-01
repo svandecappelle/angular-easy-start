@@ -1,0 +1,10 @@
+extends simple-template
+block append body
+  #error-card.card-wide.is-active.mdl-card.mdl-shadow--2dp(style='text-align: center;')
+    .mdl-card__title
+      div
+        i.material-icons(style='text-align: center;') build
+        div installation
+    .mdl-card__supporting-text
+      div launched version (#{version}) started is lower than the version (#{bddVersion}) on database.
+  

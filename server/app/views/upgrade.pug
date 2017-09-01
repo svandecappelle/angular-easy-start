@@ -1,20 +1,81 @@
-html
-head
-    title Angular TypeScript App/title
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible" content="IE=edge")
-    meta(name="description" content="Angular 4")
-    meta(name="viewport" content="width=device-width, initial-scale=1")
-    link(href='//fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css')
-    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
-
-    link(href="styles/dist/styles.css" rel="stylesheet")
-    link(href="/lib/@angular/material/prebuilt-themes/indigo-pink.css" type="text/css" rel="stylesheet")
-
-head
-body
-  main.container
-    app-container
-      section.loaders
-        span.loader.loader-circles
-        span Loading installer...
+extends simple-template
+block append body
+  #upgrade-card.card-wide.is-active.mdl-card.mdl-shadow--2dp(style='text-align: center;')
+    .mdl-card__title
+      div
+        i.material-icons(style='text-align: center;') build
+        div installation
+    .mdl-card__supporting-text
+      div Application is installed on #{bddVersion} version
+    .mdl-card__actions.mdl-card--border(style='text-align: center;')
+      button.mdl-button.dialog-button Upgrade from #{bddVersion} to version #{version}
+    .mdl-spinner.mdl-spinner--single-color.mdl-js-spinner(style='margin: auto; margin-bottom: 15px;')
+  #upgrade-success.card-wide.mdl-card.mdl-shadow--2dp(style='text-align: center;')
+    .mdl-card__title
+      div
+        i.material-icons(style='text-align: center;') done
+        div Application ready to use
+    .mdl-card__supporting-text
+      div Application is now not upgraded
+    .mdl-card__actions.mdl-card--border(style='text-align: center;')
+      button.mdl-button.dialog-button 
+        a(href='/') Begin use #{version}
+    .mdl-spinner.mdl-spinner--single-color.mdl-js-spinner(style='margin: auto; margin-bottom: 15px;')
+  dialog#upgrade-dialog.mdl-dialog
+    h3.mdl-dialog__title Upgrade confirmation
+    div.mdl-dialog__content
+      p
+        Are you sure you want to upgrade to version: #{version} on
+      .properties
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span host: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.host}
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span database: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.database}
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span username: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.username}
+        .mdl-grid
+          .mdl-cell.mdl-cell--6-col
+            span type: 
+          .mdl-cell.mdl-cell--6-col
+            span #{database.postgresql}
+    div.mdl-dialog__actions
+      .mdl-grid
+        .mdl-cell.mdl-cell--6-col
+          button.yes.mdl-button(type="button") Yes
+        .mdl-cell.mdl-cell--6-col
+          button.no.mdl-button(type="button") No
+  script.
+    (function() {
+      'use strict';
+      var dialogButton = document.querySelector('.dialog-button');
+      var dialog = document.querySelector('#upgrade-dialog');
+      if (! dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+      }
+      dialogButton.addEventListener('click', function() {
+        dialog.showModal();
+      });
+      dialog.querySelector('button.yes')
+      .addEventListener('click', function() {
+        dialog.close();
+        document.querySelector('.mdl-spinner').classList.toggle('is-active');
+        $.post('upgrade').done(function(){
+          document.querySelector('.mdl-spinner').classList.toggle('is-active');
+          document.querySelector('#upgrade-card').classList.toggle('is-active');
+          document.querySelector('#upgrade-success').classList.toggle('is-active');
+        });
+      });
+      dialog.querySelector('button.no')
+      .addEventListener('click', function() {
+        dialog.close();
+      });
+    }());
