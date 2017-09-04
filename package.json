@@ -32,6 +32,7 @@
     "@angular/router": "^4.3.6",
     "@angular/tsc-wrapped": "^4.3.6",
     "@angular/upgrade": "^4.3.6",
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.17.2",
     "colors": "^1.1.2",
     "cookie-parser": "^1.4.3",

@@ -33,20 +33,17 @@ router.get('/lower-upgrade', function (req, res, next) {
 
   });
 });
-/*
-upgrader.upgrade( { from: "1.0.0", to: "2.0.1" } ).then((status) => {
-  console.log("upgraded");
-}).catch((error) => {
-  console.error(error);
-});
-*/
 router.post('/', (req, res) => {
   version.check().then(version => {
     upgrader.upgrade( { from: version.installed, to: version.launched } ).then((status) => {
       console.log("upgraded");
-      res.send({
+      res.json({
         message: 'Application upgraded to 1.0.1'
       })
+    }).catch((error) => {
+      res.status(500).json({
+        error: error
+      });
     });
   })
 })

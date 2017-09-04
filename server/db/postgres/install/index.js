@@ -3,6 +3,7 @@ const path = require('path');
 const dateFormat = require('dateformat');
 const models = require(path.resolve(__dirname, '../../../app/models'));
 const async = require('async');
+const bcrypt = require('bcrypt');
 
 var version = require(path.resolve(__dirname, '../../../../package')).version;
 class Installer {
@@ -55,7 +56,10 @@ class Installer {
           });
         },
         administators: function (next) {
-          models.User.create({ username: 'admin', password: 'admin'}).then(() => {
+          var salt = bcrypt.genSaltSync(10);
+          var hash = bcrypt.hashSync("admin", salt);
+
+          models.User.create({ username: 'admin', password: hash}).then(() => {
             next(null, 'ok');
           });
         },
