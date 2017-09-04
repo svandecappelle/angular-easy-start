@@ -5,7 +5,8 @@ const models = require(path.resolve(__dirname, '../../../app/models'));
 const async = require('async');
 const bcrypt = require('bcrypt');
 
-var version = require(path.resolve(__dirname, '../../../../package')).version;
+const version = require(path.resolve(__dirname, '../../../app/utils/version'));
+
 class Installer {
 
   getFiles() {
@@ -18,7 +19,7 @@ class Installer {
   install(){
     return new Promise((resolve, reject) => {
       var sqlFiles = this.getFiles();
-      async.eachLimit(sqlFiles, 1, (file, next) => {
+      async.eachSeries(sqlFiles, (file, next) => {
         var sqlFileContent = fs.readFileSync(path.resolve(__dirname, file), 'utf8');
         // console.log("Executing: ", sqlFileContent);
         models.sequelize.query(sqlFileContent,
@@ -29,13 +30,18 @@ class Installer {
           console.log("** query success ** ");
           next();
         }).catch ( (error) => {
-          console.error("Error on executing ", sqlFileContent);
-          console.error(error);
           // TODO check on error to retry errors and have an incremental install
+          next({
+            msg: 'Error installing application',
+            details: error
+          });
         });
-      }, () => {
-
-        console.log(`schema successfully installed ${version}`);
+      }, (error) => {
+        if (error) {
+          console.error(error);
+          return reject(error);
+        }
+        console.log(`schema successfully installed ${version.current()}`);
 
         this.inserts().then(() => {
           resolve(true);
@@ -75,9 +81,16 @@ class Installer {
               next(null, 'ok');
             });
           });
+        },
+        history: function (next) {
+          models.Installations.create({version: version.current()}).then( () => {
+            next();
+          }).catch( (error) => {
+            next(error);
+          });
         }
       }, () => {
-        models.Pricing.create({ property: 'version', value: version}).then( () => {
+        models.Pricing.create({ property: 'version', value: version.current()}).then( () => {
           console.log('database successfully installed');
           resolve(true);
         });

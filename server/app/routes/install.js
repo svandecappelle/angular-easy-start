@@ -20,6 +20,8 @@ router.post('/', (req, res) => {
   var installer = require(path.resolve(__dirname, '../../db/postgres/install'));
   installer.install().then((installed, errors) => {
     res.json({install: 'ok'});
+  }).catch((error) => {
+    res.status(500).json(error);
   });
 })
 

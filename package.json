@@ -1,6 +1,6 @@
 {
   "name": "angular-project",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Angular generic project with database connectors",
   "main": "index.js",
   "scripts": {

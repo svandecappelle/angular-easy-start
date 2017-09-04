@@ -18,9 +18,7 @@ block append body
     .mdl-card__supporting-text
       div Application is now not upgraded
     .mdl-card__actions.mdl-card--border(style='text-align: center;')
-      button.mdl-button.dialog-button 
-        a(href='/') Begin use #{version}
-    .mdl-spinner.mdl-spinner--single-color.mdl-js-spinner(style='margin: auto; margin-bottom: 15px;')
+      a.mdl-button.dialog-button(href='/') Begin use #{version}
   #upgrade-error.card-wide.mdl-card.mdl-shadow--2dp(style='text-align: center;')
     .mdl-card__title
       div
@@ -29,10 +27,6 @@ block append body
     .mdl-card__supporting-text
       div Upgrader has caught upgrades errors:
         pre(style='text-align: left; margin: auto;').errors
-    .mdl-card__actions.mdl-card--border(style='text-align: center;')
-      button.mdl-button.dialog-button 
-        a(href='/') Begin use #{version}
-    .mdl-spinner.mdl-spinner--single-color.mdl-js-spinner(style='margin: auto; margin-bottom: 15px;')
   dialog#upgrade-dialog.mdl-dialog
     h3.mdl-dialog__title Upgrade confirmation
     div.mdl-dialog__content
@@ -85,7 +79,6 @@ block append body
           document.querySelector('#upgrade-card').classList.toggle('is-active');
           document.querySelector('#upgrade-success').classList.toggle('is-active');
         }).fail(function(error){
-          console.log(error.responseText);
           document.querySelector('#upgrade-card').classList.toggle('is-active');
           $('#upgrade-error .errors').html(JSON.stringify(JSON.parse(error.responseText), ' ', 2));
           document.querySelector('#upgrade-error').classList.toggle('is-active');
