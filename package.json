@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "server": "node server.js",
+    "server": "NODE_ENV=production node server/index.js",
     "watch": "gulp watch:scss",
     "start": "concurrently --raw \"npm run tsc:w\" \"npm run watch\" \"nodemon --watch server server/index.js\"",
-    "build": "gulp copy:libs build",
+    "build": "gulp build:package && ng build && gulp build:dist",
     "build-webpack": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "author": "Steeve Vandecappelle",

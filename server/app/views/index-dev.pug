@@ -8,10 +8,19 @@ head
     meta(name="viewport" content="width=device-width, initial-scale=1")
     link(href='//fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css')
     link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
-    link(href="/styles/indigo-pink.css" type="text/css" rel="stylesheet")
-    link(href="/styles/dist/styles.css" rel="stylesheet")
-    script(src="/hammer.min.js")
 
+    link(href="/lib/@angular/material/prebuilt-themes/indigo-pink.css" type="text/css" rel="stylesheet")
+    link(href="/styles/dist/styles.css" rel="stylesheet")
+
+    script(src="/lib/shim.min.js")
+    script(src="/lib/zone.js")
+    script(src="/lib/hammer.min.js")
+    script(src="/lib/system.src.js")
+    script(src="/systemjs.config.js")
+    script.
+      System.import('app/system-config.js').then(function () {
+        System.import('app/main');
+      }).catch(console.error.bind(console));
 head
 body
   main.container
@@ -19,8 +28,3 @@ body
       section.loaders
         span.loader.loader-circles
         span Loading application...
-  script(type="text/javascript" src="inline.bundle.js")
-  script(type="text/javascript" src="polyfills.bundle.js")
-  script(type="text/javascript" src="styles.bundle.js")
-  script(type="text/javascript" src="vendor.bundle.js")
-  script(type="text/javascript" src="main.bundle.js")

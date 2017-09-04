@@ -44,12 +44,16 @@ class Routes {
     app.use(authority);
 
     app.use(express.static(path.resolve(__dirname, '../../../public')));
-    app.use(express.static(path.resolve(__dirname, '../../../client')));
+
+    if (process.env.NODE_ENV !== 'production'){
+      console.log(path.resolve(__dirname, '../../../client'));
+      app.use(express.static(path.resolve(__dirname, '../../../client')));
+    }
 
     app.use((req, res, next) => {
       if (this.isPublic(req.url)){
         next();
-      } else if (req.session && req.session.user == null) {
+      } else if (!req.session || req.session.user == null) {
         // if user is not logged-in redirect back to login page //
         res.redirect('/login');
       } else {
@@ -69,7 +73,11 @@ class Routes {
           // version server build launched is lower than bdd
           return res.redirect('/upgrade/lower-upgrade');
         } else {
-          res.render('index');
+          if (process.env.NODE_ENV === 'production'){
+            res.render('index');
+          } else {
+            res.render('index-dev');
+          }
         }
 
       });

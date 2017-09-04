@@ -91,7 +91,7 @@ class Server {
     app.use(cookieParser());
     if (app.get('env') === 'production') {
       app.set('trust proxy', 1) // trust first proxy
-      sess.cookie.secure = true // serve secure cookies
+      // sess.cookie.secure = true // serve secure cookies
     }
 
     // TODO change secret value  and maybe use passport

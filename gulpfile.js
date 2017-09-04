@@ -16,7 +16,7 @@ var publicDistFolder = 'public',
   nodeModulesPath = 'node_modules';
 
 gulp.task('sass', function () {
-  gulp.src(cssPath + '/*.scss')
+  return gulp.src(cssPath + '/*.scss')
     .pipe(plumber())
     .pipe(sass({ errLogToConsole: true }))
     .pipe(csso())
@@ -28,7 +28,7 @@ gulp.task('clean', function () {
 })
 
 gulp.task('copy:libs', function (done) {
-  sequence('clean', 'copy:vendor', 'copy:rxjs', 'copy:angular', done)
+  return sequence('clean', 'copy:vendor', 'copy:rxjs', 'copy:angular', done)
 })
 
 gulp.task('copy:vendor', function () {
@@ -54,7 +54,7 @@ gulp.task('copy:angular', function () {
 })
 
 gulp.task('compressScripts', function () {
-  gulp.src([
+  return gulp.src([
     jsPath + '/**/*.js'
   ])
     .pipe(concat('scripts.min.js'))
@@ -63,7 +63,7 @@ gulp.task('compressScripts', function () {
 })
 
 gulp.task('angular:scss', function () {
-  gulp.src('client/**/*.scss')
+  return gulp.src('client/**/*.scss')
     .pipe(plumber())
     .pipe(sass({ errLogToConsole: true }))
     .pipe(csso())
@@ -74,17 +74,43 @@ gulp.copy = function(src , dest){
     return ;
 };
 
+gulp.task('clean:dist', function () {
+  return del(['dist', 'build'], { force: true })
+})
+
 gulp.task('build:client', function () {
-  gulp.src('public/**/*')
+  gulp.src([
+    'public/{styles, images}/**/*'
+    ])
   .pipe(gulp.dest('build/public/'));
+  gulp.src([
+    'public/assets/{,jquery}/dist/**/*',
+    'public/assets/{,material-design-lite}/*.min.js*',
+    'public/assets/{,material-design-lite}/*.min.css*',
+    'public/assets/{,material-design-icons}/iconfont/**/*',
+    'public/dialog.polyfill.min.js'
+    ])
+  .pipe(gulp.dest('build/public/assets'));
 })
 
 gulp.task('build:server', function () {
+  gulp.src('config/**/*')
+    .pipe(gulp.dest('build/config/'));
+  gulp.src('*.json')
+    .pipe(gulp.dest('build/'));
+  gulp.src('node_modules/@angular/material/prebuilt-themes/indigo-pink.css')
+    .pipe(gulp.dest('build/public/styles/'));
+  gulp.src('node_modules/hammerjs/*.min.js')
+    .pipe(gulp.dest('build/public/'));
   gulp.src('server/**/*')
     .pipe(gulp.dest('build/server/'));
 })
 
 gulp.task('dist', function () {
+  // delete angular generated file
+  // del('build/client/*.html');
+  gulp.src('build/client/*.js*')
+    .pipe(gulp.dest('build/public/'));
   gulp.src('build/**/*')
     .pipe(zip('archive.zip'))
     .pipe(gulp.dest('dist'));
@@ -99,13 +125,18 @@ gulp.task('watch', function () {
 })
 
 gulp.task('watch:scss', function () {
-  gulp.watch(['client/**/*.scss', 'public/**/*.scss'], ['angular:scss', 'sass'])
+  return gulp.watch(['client/**/*.scss', 'public/**/*.scss'], ['angular:scss', 'sass'])
 })
 
 // Main tasks
 gulp.task('default', ['sass', 'angular:scss', 'compressScripts', 'watch'])
 
-gulp.task('build', ['build:client', 'build:server'])
-gulp.task('package', function (done) {
-  sequence('copy:libs', 'sass', 'angular:scss', 'compressScripts' , 'build', 'dist', done);
+gulp.task('build', function(done){
+  return sequence('build:client', 'build:server', done);
+})
+gulp.task('build:package', function (done) {
+  return sequence('clean:dist', 'copy:libs', 'sass', 'angular:scss', 'compressScripts' , 'build', done);
+});
+gulp.task('build:dist', function (done) {
+  return sequence('dist', done);
 });
