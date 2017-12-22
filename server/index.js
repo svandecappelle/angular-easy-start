@@ -23,7 +23,7 @@ class Server {
   constructor () {
     this.running = false;
     nconf.file({
-      file: path.resolve(__dirname, './config/pricing.yml'),
+      file: path.resolve(__dirname, './config/application.yml'),
       format: nconfYaml
     });
 

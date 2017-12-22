@@ -12,11 +12,11 @@ class Version {
   installed() {
     return new Promise((resolve, reject) => {
       models[nconf.get('product-name')].findAll().then(properties => {
-        var pricing = {};
+        var application = {};
         for (var variable of properties) {
-          pricing[variable.get('property')] = variable.get('value');
+          application[variable.get('property')] = variable.get('value');
         }
-        resolve(pricing.version);
+        resolve(application.version);
       }).catch((error) => {
         // console.error(error);
         console.log('not installed application');
