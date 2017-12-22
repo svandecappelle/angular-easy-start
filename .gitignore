@@ -1,10 +1,4 @@
-trash
-client/app/**/*.css
-client/app/**/*.js
-client/app/**/*.map
 node_modules/
-public/lib/
-public/styles/dist
 build/
-dist/
-public/assets
+dist.tar.gz
+

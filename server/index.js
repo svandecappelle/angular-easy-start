@@ -14,7 +14,7 @@ const express = require('express'),
   dateFormat = require('dateformat'),
   colors = require('colors'),
 
-  config    = yaml_config.load(path.resolve(__dirname, '../config/config.yml')),
+  config    = yaml_config.load(path.resolve(__dirname, './config/config.yml')),
   app = express();
 var environment = process.env.NODE_ENV || 'development';
 
@@ -23,7 +23,7 @@ class Server {
   constructor () {
     this.running = false;
     nconf.file({
-      file: path.resolve(__dirname, '../config/pricing.yml'),
+      file: path.resolve(__dirname, './config/pricing.yml'),
       format: nconfYaml
     });
 
