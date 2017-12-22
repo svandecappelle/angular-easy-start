@@ -55,7 +55,7 @@ gen-certificate:
 install:
 	$(NPM) install
 
-build:
+build: install
 	$(CD) client && ng build
 	$(TAR) $(DIST_TAR) client/dist server package.json LICENCE README.md
 
