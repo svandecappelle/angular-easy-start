@@ -1,2 +1,1 @@
-## To generate new components:
-ng generate component components/<package_to_component>
+call make help to launch the build help
