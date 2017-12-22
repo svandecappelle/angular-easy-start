@@ -12,7 +12,7 @@ var router = express.Router();
 
 router.get('/', function (req, res, next) {
   version.check().then(version => {
-    res.render('upgrade', {
+    res.json({
       title: 'Upgrader',
       version: version.launched,
       bddVersion: version.installed,
@@ -22,17 +22,6 @@ router.get('/', function (req, res, next) {
 });
 
 
-router.get('/lower-upgrade', function (req, res, next) {
-  version.check().then(version => {
-
-    res.render('lower-upgrade', {
-      title: 'Upgrader',
-      version: version.launched,
-      bddVersion: version.installed
-    });
-
-  });
-});
 router.post('/', (req, res) => {
   version.check().then(version => {
     upgrader.upgrade( { from: version.installed, to: version.launched } ).then((status) => {

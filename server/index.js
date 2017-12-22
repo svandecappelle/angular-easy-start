@@ -51,7 +51,8 @@ class Server {
     console.debug = logger.debug;
     console.silly = logger.silly;
 
-    this.initViewEngine();
+    // application is full angular now
+    // this.initViewEngine();
     this.initExpressMiddleWare();
     this.initRoutes();
     this.start();

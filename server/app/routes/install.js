@@ -9,7 +9,7 @@ var router = express.Router();
 
 
 router.get('/', function (req, res, next) {
-  res.render('install', {
+  res.json({
     title: 'Installer',
     version: version.current(),
     database: yaml_config.load(path.resolve(__dirname, '../../../config/config.yml')).database
